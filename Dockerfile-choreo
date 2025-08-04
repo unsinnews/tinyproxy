@@ -40,17 +40,15 @@ ENV TINYPROXY_GID="10014"
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       tinyproxy curl && \
-    # 清理缓存
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    # 强制创建配置目录和文件
     mkdir -p /etc/tinyproxy && \
     cat <<EOF > /etc/tinyproxy/tinyproxy.conf
 Port 8888
 Allow 0.0.0.0/0
-EOF
-    # 创建默认配置副本
+EOF && \
     cp /etc/tinyproxy/tinyproxy.conf /etc/tinyproxy/tinyproxy.default.conf && \
+    mkdir -p /var/run/tinyproxy /var/log/tinyproxy && \
     # 设置权限
     chown -R ${TINYPROXY_UID}:${TINYPROXY_GID} /etc/tinyproxy /var/run/tinyproxy /var/log/tinyproxy
 
