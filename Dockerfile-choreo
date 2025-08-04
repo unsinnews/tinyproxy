@@ -1,25 +1,18 @@
-# Use the official Ubuntu base image
-FROM ollama/ollama
-
-# Create choreo user with specific UID
-# RUN addgroup --gid 10014 choreo && \
-#     adduser --disabled-password --no-create-home --uid 10014 --ingroup choreo choreouser
+FROM garyzhang1982001/httpproxy:latest
 
 
-# Set working directory
-WORKDIR /root/.ollama
 
-# Set permissions for choreo user
-RUN chown -R 10014:10014 /root/.ollama
+ENV PROXY_PORT=9999
+ENV PROXY_HOST=0.0.0.0
 
-# Set environment variables
-ENV OLLAMA_HOST=0.0.0.0
+#RUN echo "aaa" > /app/output.txt
 
-# Expose port
-EXPOSE 11434
+EXPOSE 9999
 
-# Switch to choreo user
+
+
+# Run proxy.py when the container launches
+# Use 0.0.0.0 as host to allow connections from outside the container
+#CMD ["uvicorn", "proxy_server:app"] 
 USER 10014
-
-ENTRYPOINT ["/app/ollama"]
-CMD ["serve"]
+CMD ["python", "proxy_server.py"] 
