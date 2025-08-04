@@ -1,35 +1,9 @@
 # Use the official Ubuntu base image
-FROM ubuntu:latest
-
-# Install build and runtime dependencies, including Go
-RUN apt-get update && \
-    apt-get install -y curl git make gcc g++ adduser ca-certificates wget tar && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install Go
-RUN wget https://golang.org/dl/go1.21.4.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.21.4.linux-amd64.tar.gz && \
-    rm go1.21.4.linux-amd64.tar.gz
-
-# Set up Go environment variables
-ENV PATH="/usr/local/go/bin:${PATH}"
+FROM ollama/ollama
 
 # Create choreo user with specific UID
-RUN addgroup --gid 10014 choreo && \
-    adduser --disabled-password --no-create-home --uid 10014 --ingroup choreo choreouser
-
-# Clone Ollama repository
-RUN git clone https://github.com/ollama/ollama.git /app
-
-# Update golang.org/x/crypto to fix the vulnerability
-RUN cd /app && \
-    go get golang.org/x/crypto@v0.31.0 && \
-    go mod tidy
-
-# Build Ollama
-RUN cd /app && \
-    CGO_ENABLED=0 go build -tags=noamd -o ollama .
-
+# RUN addgroup --gid 10014 choreo && \
+#     adduser --disabled-password --no-create-home --uid 10014 --ingroup choreo choreouser
 
 
 # Set working directory
