@@ -1,2 +1,2 @@
-FROM toolbelt/tinyproxy
+FROM stilleshan/tinyproxy
 USER 10014
