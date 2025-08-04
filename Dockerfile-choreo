@@ -1,2 +1,12 @@
+FROM ubuntu:latest
 FROM ajoergensen/tinyproxy
+# Install build and runtime dependencies, including Go
+RUN apt-get update && \
+    apt-get install -y curl git make gcc g++ adduser ca-certificates wget tar && \
+    rm -rf /var/lib/apt/lists/*
+RUN addgroup --gid 10014 choreo && \
+    adduser --disabled-password --no-create-home --uid 10014 --ingroup choreo choreouser
+RUN chown -R 10014:10014 /etc/tinyproxy
+EXPOSE 8888
 USER 10014
+CMD exec /usr/bin/tinyproxy -d
