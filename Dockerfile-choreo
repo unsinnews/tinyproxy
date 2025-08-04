@@ -27,8 +27,13 @@ RUN cd /app && \
     go mod tidy
 
 # Build Ollama
+# 安装 ROCm 运行时
+RUN apt-get update && apt-get install -y rocm-opencl-runtime
+
+# 编译时启用 ROCm 支持
 RUN cd /app && \
-    CGO_ENABLED=0 go build -o ollama .
+    CGO_ENABLED=1 go build -tags=rocm -o ollama .
+
 
 # Set working directory
 WORKDIR /root/.ollama
