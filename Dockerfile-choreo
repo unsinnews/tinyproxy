@@ -1,2 +1,2 @@
-FROM ajoergensen/tinyproxy
+FROM toolbelt/tinyproxy
 USER 10014
