@@ -1,2 +1,2 @@
-FROM kalaksi/tinyproxy
+FROM stilleshan/tinyproxy
 USER 10014
